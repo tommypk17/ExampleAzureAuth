@@ -7,6 +7,7 @@ import {MsalBroadcastService, MsalGuard, MsalInterceptor, MsalModule, MsalRedire
 import {BrowserCacheLocation, InteractionType, PublicClientApplication} from "@azure/msal-browser";
 import {environment} from "../environments/environment";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {RoleGuard} from "./guards/role.guard";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
     },
     MsalService,
     MsalGuard,
-    MsalBroadcastService
+    MsalBroadcastService,
+    RoleGuard
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })
