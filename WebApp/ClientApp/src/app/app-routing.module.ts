@@ -3,7 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import {AppComponent} from "./app.component";
 import {MsalGuard} from "@azure/msal-angular";
 
-const routes: Routes = [{path: '', component: AppComponent, canActivate: [MsalGuard]}];
+const routes: Routes = [
+  { path: '', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule) },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

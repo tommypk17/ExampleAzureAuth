@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "User.Default")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    // [Authorize(Roles = "User.Default")]
+    
     public class FilesController : ControllerBase
     {
         [HttpGet]

@@ -29,13 +29,22 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
-            
-            
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
+
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "API", Version = "v1"}); });
             
+            //CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowWebApp",
+                    builder => 
+                        builder.AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials()
+                            .WithOrigins(Configuration.GetSection("CORS:allowed").Get<string[]>())
+                );
+            });
             
         }
 
@@ -48,13 +57,17 @@ namespace API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
-
+            
+            app.UseCors("AllowWebApp");
+            
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
