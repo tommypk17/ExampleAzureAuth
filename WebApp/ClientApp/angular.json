@@ -72,9 +72,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
+              "ssl": true,
               "browserTarget": "ExampleAzureAuthWebApp:build:production"
             },
             "development": {
+              "ssl": true,
               "browserTarget": "ExampleAzureAuthWebApp:build:development"
             }
           },
