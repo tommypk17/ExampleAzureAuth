@@ -15,9 +15,17 @@ export class AdministrationComponent implements OnInit {
   constructor(private administrationService: AdministrationService) { }
 
   ngOnInit(): void {
+    this.administrationService.getUsers().subscribe((res: any[]) => {
+      this.foundUsers = res;
+    });
     this.administrationService.getUsersInRoles().subscribe((res: any[]) => {
       this.users = res;
     });
   }
 
+  addUser(userId: string): void {
+    this.administrationService.addUserToRole(userId, 'User.Default').subscribe((res: boolean) => {
+
+    });
+  }
 }

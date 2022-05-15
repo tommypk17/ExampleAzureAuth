@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FilesService} from "../../../../services/files.service";
+import {MsalService} from "@azure/msal-angular";
+import {AccountInfo} from "@azure/msal-browser";
 
 @Component({
   selector: 'app-home',
@@ -8,15 +10,13 @@ import {FilesService} from "../../../../services/files.service";
 })
 export class HomeComponent implements OnInit {
 
-  colors: string[] = [];
-  constructor(private fileService: FilesService) { }
+  user: AccountInfo | undefined;
+  constructor(private msalService: MsalService) { }
 
   ngOnInit(): void {
-    // this.fileService.getFiles().subscribe((res: string[]) => {
-    //   if(res){
-    //     this.colors = res;
-    //   }
-    // });
+    if(this.msalService.instance.getAllAccounts().length > 0){
+      this.user = this.msalService.instance.getAllAccounts()[0];
+    }
   }
 
 }

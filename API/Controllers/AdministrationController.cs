@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +21,22 @@ namespace API.Controllers
             _graphClient = graphClient;
             _configuration = configuration;
         }
+
+        [HttpGet]
+        [Route("users")]
+        public IActionResult GetUsers()
+        {
+            var usersReq = _graphClient.Users.Request().GetAsync();
+            var users = usersReq.Result;
+            var res = users.Select(x => new
+            {
+                x.Id,
+                Name = x.DisplayName,
+                Email = x.Mail
+            }).ToList();
+
+            return StatusCode(StatusCodes.Status200OK, res);
+        }
         
         [HttpGet]
         [Route("users/roles")]
@@ -35,11 +52,39 @@ namespace API.Controllers
 
             var res = users.Select(x => new
             {
+                Id = x.PrincipalId,
                 DisplayName = x.PrincipalDisplayName,
                 Role = roles.Where(z => z.Id == x.AppRoleId).Select(t => t.Value).FirstOrDefault()
             });
 
             return StatusCode(StatusCodes.Status200OK, res);
+        }
+        
+        [HttpPost]
+        [Route("users/{userId}/roles/{role}")]
+        public IActionResult AssignUserRole(string userId, string role)
+        {
+            var resourceId = _configuration.GetSection("Graph").GetValue<string>("EnterpriseApplicationId");
+            role = _configuration.GetSection("Graph").GetValue<string>($"Roles:{role}");
+
+            var appRoleAssignment = new AppRoleAssignment
+            {
+                PrincipalId = Guid.Parse(userId),
+                ResourceId = Guid.Parse(resourceId),
+                AppRoleId = Guid.Parse(role)
+            };
+
+            try
+            {
+                _graphClient.Users[userId].AppRoleAssignments
+                    .Request()
+                    .AddAsync(appRoleAssignment);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status200OK, false);
+            }
+            return StatusCode(StatusCodes.Status200OK, true);
         }
     }
 }
