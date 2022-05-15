@@ -10,7 +10,7 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [RoleGuard],
     data: {
-      expectedRole: ['User.Default']
+      expectedRole: ['User.Default', 'User.Administrator']
     }
   }
 ];

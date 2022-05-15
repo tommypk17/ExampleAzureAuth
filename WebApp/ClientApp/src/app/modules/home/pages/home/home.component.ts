@@ -12,11 +12,11 @@ export class HomeComponent implements OnInit {
   constructor(private fileService: FilesService) { }
 
   ngOnInit(): void {
-    this.fileService.getFiles().subscribe((res: string[]) => {
-      if(res){
-        this.colors = res;
-      }
-    });
+    // this.fileService.getFiles().subscribe((res: string[]) => {
+    //   if(res){
+    //     this.colors = res;
+    //   }
+    // });
   }
 
 }

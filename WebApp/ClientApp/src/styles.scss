@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+html {
+  background-color: #efefef;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  box-shadow: rgba(0,0,0,.05) 3px 3px 7px 4px;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: white;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

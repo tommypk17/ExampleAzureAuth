@@ -6,6 +6,7 @@ import {MsalGuard} from "@azure/msal-angular";
 const routes: Routes = [
   {path: 'unauthorized', component: AppComponent},
   { path: '', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule), canActivate: [MsalGuard] },
+  { path: 'administration', loadChildren: () => import('./modules/administration/administration.module').then(m => m.AdministrationModule), canActivate: [MsalGuard] },
 ];
 
 @NgModule({

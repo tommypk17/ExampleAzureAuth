@@ -16,12 +16,14 @@ export class RoleGuard implements CanActivate {
       return false;
     }
 
-    //if roles on user exists, check if expectedRoles exists
-    let userRoles = this.authService.instance.getAllAccounts()[0]?.idTokenClaims?.roles;
-    if(userRoles){
-      for(let i = 0; i < expectedRoles.length; i++){
-        if(userRoles.includes(expectedRoles[i])){
-          return true;
+    if(expectedRoles){
+      //if roles on user exists, check if expectedRoles exists
+      let userRoles = this.authService.instance.getAllAccounts()[0]?.idTokenClaims?.roles;
+      if(userRoles){
+        for(let i = 0; i < expectedRoles.length; i++){
+          if(userRoles.includes(expectedRoles[i])){
+            return true;
+          }
         }
       }
     }
