@@ -1,23 +1,29 @@
 <div class="card">
+  <button (click)="refresh()">Refresh Lists</button>
+</div>
+<div class="card">
   <h3>Add Application Users</h3>
-  <div>
-    <input placeholder="Search Users" type="text">
-    <button>Search</button>
-  </div>
-  <div *ngIf="foundUsers.length > 0">
+  <div *ngIf="directoryUsers.length > 0">
     <table>
       <thead>
       <tr>
         <td></td>
         <td>Name</td>
         <td>Email</td>
+        <td></td>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of foundUsers">
-        <td><button (click)="addUser(user.id)">Add</button></td>
+      <tr *ngFor="let user of directoryUsers">
+        <td><button (click)="addUser(user.id, role.value)">Add</button></td>
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
+        <td>
+          <select #role>
+            <option value="User.Default" label="Default"></option>
+            <option value="User.Administrator" label="Administrator"></option>
+          </select>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -28,12 +34,14 @@
   <table>
     <thead>
       <tr>
+          <td></td>
           <td>Name</td>
           <td>Role</td>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users">
+      <tr *ngFor="let user of applicationUsers">
+        <td><button (click)="removeUser(user.id)">Remove</button></td>
         <td>{{user.displayName}}</td>
         <td>{{user.role? user.role: 'No Role'}}</td>
       </tr>

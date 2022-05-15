@@ -55,6 +55,21 @@ export class AdministrationService {
     );
   }
 
+  public removeUser(userId: string): Observable<boolean> {
+    return this.http.delete<boolean>(environment.apiUrl + `administration/users/${userId}`).pipe(
+      retry(3),
+      catchError((err, caught) => {
+        this.handleError(err);
+        return new Observable<boolean>((subscriber) => {
+          subscriber.next(undefined);
+        })
+      }),
+      finalize(() => {
+
+      })
+    );
+  }
+
   private handleError(err: any): void {
     console.log('Error: ' + err)
   }

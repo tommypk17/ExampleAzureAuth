@@ -8,24 +8,47 @@ import {AdministrationService} from "../../../../services/administration.service
 })
 export class AdministrationComponent implements OnInit {
 
-  users: any[] = [];
+  applicationUsers: any[] = [];
 
-  foundUsers: any[] = [];
+  directoryUsers: any[] = [];
 
   constructor(private administrationService: AdministrationService) { }
 
   ngOnInit(): void {
     this.administrationService.getUsers().subscribe((res: any[]) => {
-      this.foundUsers = res;
+      this.directoryUsers = res;
     });
     this.administrationService.getUsersInRoles().subscribe((res: any[]) => {
-      this.users = res;
+      this.applicationUsers = res;
     });
   }
 
-  addUser(userId: string): void {
-    this.administrationService.addUserToRole(userId, 'User.Default').subscribe((res: boolean) => {
+  addUser(userId: string, role: string): void {
+    this.administrationService.addUserToRole(userId, role).subscribe((res: boolean) => {
+      if(res){
+        alert(`SUCCESS: User added to ${role} role.`)
+      }else{
+        alert(`FAILURE: User not added to ${role} role.`)
+      }
+    });
+  }
 
+  removeUser(userId: string): void {
+    this.administrationService.removeUser(userId).subscribe((res: boolean) => {
+      if(res){
+        alert(`SUCCESS: User removed from application`);
+      }else{
+        alert(`FAILURE: User not removed from application`);
+      }
+    });
+  }
+
+  refresh(): void {
+    this.administrationService.getUsers().subscribe((res: any[]) => {
+      this.directoryUsers = res;
+    });
+    this.administrationService.getUsersInRoles().subscribe((res: any[]) => {
+      this.applicationUsers = res;
     });
   }
 }

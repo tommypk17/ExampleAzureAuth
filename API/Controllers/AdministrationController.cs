@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -86,5 +87,34 @@ namespace API.Controllers
             }
             return StatusCode(StatusCodes.Status200OK, true);
         }
+        [HttpDelete]
+        [Route("users/{userId}")]
+        public IActionResult RemoveUserFromApplication(string userId)
+        {
+            var principalId = _configuration.GetSection("Graph").GetValue<string>("EnterpriseApplicationId");
+            
+            var usersReq = _graphClient.ServicePrincipals[principalId].AppRoleAssignedTo.Request().GetAsync();
+            var users = usersReq.Result;
+
+            var user = users.FirstOrDefault(x => x.PrincipalId.ToString() == userId);
+            if (user is null)
+            {
+                return StatusCode(StatusCodes.Status200OK, false);
+            }
+            try
+            {
+                _graphClient.ServicePrincipals[principalId].AppRoleAssignedTo[user.Id]
+                    .Request()
+                    .DeleteAsync();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status200OK, false);
+            }
+
+            return StatusCode(StatusCodes.Status200OK, true);
+        }
+        
+        
     }
 }
