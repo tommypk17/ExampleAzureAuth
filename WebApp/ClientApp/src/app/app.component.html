@@ -1,4 +1,4 @@
 <div class="container">
   <router-outlet *ngIf="!unauthorized"></router-outlet>
 </div>
-<span *ngIf="unauthorized">You are not authorized to access this application.</span>
+<span *ngIf="unauthorized">You are not authorized to access this application. <button (click)="retry()">Refresh & Login.</button> </span>

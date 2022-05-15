@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterEvent, UrlSegment} from "@angular/router";
 import {filter} from "rxjs";
+import {MsalService} from "@azure/msal-angular";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent {
 
   unauthorized: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private msalService: MsalService) {
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd)
     ).subscribe(
@@ -22,5 +23,9 @@ export class AppComponent {
           this.unauthorized = true;
         }
       });
+  }
+
+  retry(): void {
+      this.msalService.instance.loginRedirect();
   }
 }
