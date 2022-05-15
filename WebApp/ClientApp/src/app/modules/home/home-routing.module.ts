@@ -8,9 +8,9 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [MsalGuard, RoleGuard],
+    canActivate: [RoleGuard],
     data: {
-      expectedRole: 'User.Default'
+      expectedRole: ['User.Default']
     }
   }
 ];
