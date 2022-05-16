@@ -11,21 +11,7 @@ import {MsalService} from "@azure/msal-angular";
 export class AppComponent {
   title = 'ExampleAzureAuthWebApp';
 
-  unauthorized: boolean = false;
+  constructor() {
 
-  constructor(private router: Router, private msalService: MsalService) {
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd)
-    ).subscribe(
-      (x) => {
-        let route = (x as NavigationEnd).url;
-        if(route == '/unauthorized'){
-          this.unauthorized = true;
-        }
-      });
-  }
-
-  retry(): void {
-      this.msalService.instance.loginRedirect();
   }
 }

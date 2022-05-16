@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './pages/home/home.component';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    UnauthorizedComponent
   ],
   imports: [
     CommonModule,
