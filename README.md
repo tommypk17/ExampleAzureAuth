@@ -1,4 +1,4 @@
-#Azure Role Based Access Control for .NET 5+ & Angular
+# Azure Role Based Access Control for .NET 5+ & Angular
 ## Overview
 This project is an example for how RBAC (role-based access control) can be 
 implemented in a .NET 5+ / Angular application. This uses roles defined on an enterprise
