@@ -17,7 +17,7 @@ validating a user.
 3) Cleaner login/logout procedures since all auth is self-contained. Logging out of the 
 system means completely discarding all auth information from the client.
 
-##Requirements
+## Requirements
 ### Technical Requirements
 - Azure Active Directory
     - 1 Application Registration
