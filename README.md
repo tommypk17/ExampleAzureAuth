@@ -105,7 +105,7 @@ While it may be possible to implement 1 app regis. & e-app for the front-end & A
 `expectedRole` array defined on a per route basis. These roles must match 
   the role <b>values</b> defined in Azure's App Role blade.
   
-- Since this this authorization relies on the ID Token & Access Tokens, it is possible
+- Since this authorization relies on the ID Token & Access Tokens, it is possible
 access is revoked for the user, but they are able to still access that part of the app until their
   token is revoked (which occurs based on the refresh timeout of the token set by Azure).
   
