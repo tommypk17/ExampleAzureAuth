@@ -12,6 +12,8 @@ export class AdministrationComponent implements OnInit {
 
   directoryUsers: any[] = [];
 
+  roles: IRole[] = [];
+
   constructor(private administrationService: AdministrationService) { }
 
   ngOnInit(): void {
@@ -21,6 +23,11 @@ export class AdministrationComponent implements OnInit {
     this.administrationService.getUsersInRoles().subscribe((res: any[]) => {
       this.applicationUsers = res;
     });
+
+    this.roles = [
+      { label: 'Default', value: "User.Default"},
+      { label: 'Administrator', value: "User.Administrator"}
+    ]
   }
 
   addUser(userId: string, role: string): void {
@@ -51,4 +58,10 @@ export class AdministrationComponent implements OnInit {
       this.applicationUsers = res;
     });
   }
+}
+
+
+export interface IRole {
+  label: string;
+  value: string;
 }
