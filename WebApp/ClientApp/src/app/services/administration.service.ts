@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, finalize, Observable, retry} from "rxjs";
 import {environment} from "../../environments/environment";
+import {IRole, IUser, IUserRole} from "../models/administration";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,22 @@ export class AdministrationService {
 
   constructor(private http: HttpClient) { }
 
-  public getUsers(): Observable<any[]> {
+  public getRoles(): Observable<IRole[]> {
+    return this.http.get<any[]>(environment.apiUrl + 'administration/roles').pipe(
+      retry(3),
+      catchError((err, caught) => {
+        this.handleError(err);
+        return new Observable<any[]>((subscriber) => {
+          subscriber.next(undefined);
+        })
+      }),
+      finalize(() => {
+
+      })
+    );
+  }
+
+  public getUsers(): Observable<IUser[]> {
     return this.http.get<any[]>(environment.apiUrl + 'administration/users').pipe(
       retry(3),
       catchError((err, caught) => {
@@ -25,7 +41,7 @@ export class AdministrationService {
     );
   }
 
-  public getUsersInRoles(): Observable<any[]> {
+  public getUsersInRoles(): Observable<IUserRole[]> {
     return this.http.get<any[]>(environment.apiUrl + 'administration/users/roles').pipe(
       retry(3),
       catchError((err, caught) => {

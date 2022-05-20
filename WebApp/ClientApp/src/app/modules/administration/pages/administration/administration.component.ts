@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AdministrationService} from "../../../../services/administration.service";
+import {IRole, IUser, IUserRole} from "../../../../models/administration";
 
 @Component({
   selector: 'app-administration',
@@ -8,26 +9,16 @@ import {AdministrationService} from "../../../../services/administration.service
 })
 export class AdministrationComponent implements OnInit {
 
-  applicationUsers: any[] = [];
+  applicationUsers: IUserRole[] = [];
 
-  directoryUsers: any[] = [];
+  directoryUsers: IUser[] = [];
 
   roles: IRole[] = [];
 
   constructor(private administrationService: AdministrationService) { }
 
   ngOnInit(): void {
-    this.administrationService.getUsers().subscribe((res: any[]) => {
-      this.directoryUsers = res;
-    });
-    this.administrationService.getUsersInRoles().subscribe((res: any[]) => {
-      this.applicationUsers = res;
-    });
-
-    this.roles = [
-      { label: 'Default', value: "User.Default"},
-      { label: 'Administrator', value: "User.Administrator"}
-    ]
+    this.refresh();
   }
 
   addUser(userId: string, role: string): void {
@@ -51,17 +42,14 @@ export class AdministrationComponent implements OnInit {
   }
 
   refresh(): void {
-    this.administrationService.getUsers().subscribe((res: any[]) => {
+    this.administrationService.getUsers().subscribe((res: IUser[]) => {
       this.directoryUsers = res;
     });
-    this.administrationService.getUsersInRoles().subscribe((res: any[]) => {
+    this.administrationService.getUsersInRoles().subscribe((res: IUserRole[]) => {
       this.applicationUsers = res;
     });
+    this.administrationService.getRoles().subscribe((res: IRole[]) => {
+      this.roles = res;
+    });
   }
-}
-
-
-export interface IRole {
-  label: string;
-  value: string;
 }

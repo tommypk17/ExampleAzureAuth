@@ -24,6 +24,20 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Route("roles")]
+        public IActionResult GetRoles()
+        {
+            var roles = _configuration.GetSection("Graph").GetSection("Roles").GetChildren();
+            var res = roles.AsEnumerable().Select(x => new
+            {
+                label = x.Key,
+                value = x.Value
+            });
+
+            return StatusCode(StatusCodes.Status200OK, res);
+        }
+        
+        [HttpGet]
         [Route("users")]
         public IActionResult GetUsers()
         {
