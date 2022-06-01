@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
 
@@ -17,10 +19,12 @@ namespace API.Controllers
     {
         private readonly GraphServiceClient _graphClient;
         private readonly IConfiguration _configuration;
-        public AdministrationController(GraphServiceClient graphClient, IConfiguration configuration)
+        private readonly IHubContext<AuthHub> _hub;
+        public AdministrationController(GraphServiceClient graphClient, IConfiguration configuration, IHubContext<AuthHub> hub)
         {
             _graphClient = graphClient;
             _configuration = configuration;
+            _hub = hub;
         }
 
         [HttpGet]
@@ -99,6 +103,8 @@ namespace API.Controllers
             {
                 return StatusCode(StatusCodes.Status200OK, false);
             }
+
+            _hub.Clients.All.SendAsync("Authorization", userId);
             return StatusCode(StatusCodes.Status200OK, true);
         }
         [HttpDelete]
@@ -125,7 +131,7 @@ namespace API.Controllers
             {
                 return StatusCode(StatusCodes.Status200OK, false);
             }
-
+            _hub.Clients.All.SendAsync("Authorization", userId);
             return StatusCode(StatusCodes.Status200OK, true);
         }
         

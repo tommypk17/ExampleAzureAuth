@@ -26,7 +26,7 @@ export class UnauthorizedComponent implements OnInit {
       forceRefresh: true
     }
     this.msalService.instance.acquireTokenSilent(loginReq).then(() => {
-      this.router.navigate(['/'])
+      this.router.navigate(['/']);
     })
   }
 }

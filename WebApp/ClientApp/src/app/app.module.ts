@@ -8,6 +8,7 @@ import {BrowserCacheLocation, InteractionType, PublicClientApplication} from "@a
 import {environment} from "../environments/environment";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RoleGuard} from "./guards/role.guard";
+import {SignalrService} from "./services/signalr.service";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {RoleGuard} from "./guards/role.guard";
     MsalService,
     MsalGuard,
     MsalBroadcastService,
-    RoleGuard
+    RoleGuard,
+    SignalrService
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })

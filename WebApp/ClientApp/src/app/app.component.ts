@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterEvent, UrlSegment} from "@angular/router";
 import {filter} from "rxjs";
 import {MsalService} from "@azure/msal-angular";
+import {SignalrService} from "./services/signalr.service";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import {MsalService} from "@azure/msal-angular";
 export class AppComponent {
   title = 'ExampleAzureAuthWebApp';
 
-  constructor() {
-
+  constructor(private signalRService: SignalrService) {
+    this.signalRService.addAuthorizationListener();
   }
 }

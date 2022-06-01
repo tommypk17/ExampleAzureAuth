@@ -20,7 +20,7 @@
         <td>{{user.email}}</td>
         <td>
           <select #role>
-            <option *ngFor="let availableRole of roles" [value]="availableRole.value" [label]="availableRole.label"></option>
+            <option *ngFor="let availableRole of roles" [value]="availableRole.label" [label]="availableRole.label"></option>
           </select>
         </td>
       </tr>
